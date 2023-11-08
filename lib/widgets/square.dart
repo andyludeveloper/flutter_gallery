@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gallery/provider/captured_image_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'camera_app.dart';
 
@@ -28,11 +30,13 @@ class Square extends StatelessWidget {
             ),
             child: const Icon(Icons.add, color: Colors.black)),
       ),
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        final image = await Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const CameraApp()),
         );
+        debugPrint("image: $image");
+        context.read<CapturedImageProvider>().addImage(image);
       },
     );
   }
