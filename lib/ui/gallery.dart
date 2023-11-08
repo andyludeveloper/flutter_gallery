@@ -17,7 +17,7 @@ class Gallery extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.blue,
         appBar: AppBar(
-          title: Text("123"),
+          title: const Text("Gallery"),
         ),
         body: Stack(
           children: [
