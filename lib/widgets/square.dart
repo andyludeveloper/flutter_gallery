@@ -30,13 +30,17 @@ class Square extends StatelessWidget {
             ),
             child: const Icon(Icons.add, color: Colors.black)),
       ),
-      onTap: () async {
-        final image = await Navigator.push(
-          context,
+      onTap: () {
+        BuildContext currentContext = context;
+        Navigator.push(
+          currentContext,
           MaterialPageRoute(builder: (context) => const CameraApp()),
-        );
-        debugPrint("image: $image");
-        context.read<CapturedImageProvider>().addImage(image);
+        ).then((image) {
+          if (image != null) {
+            debugPrint("image: $image");
+            currentContext.read<CapturedImageProvider>().addImage(image);
+          }
+        });
       },
     );
   }
