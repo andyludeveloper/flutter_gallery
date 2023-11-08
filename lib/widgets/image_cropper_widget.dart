@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 
+import 'image_preview.dart';
+
 class ImageCropperWidget extends StatelessWidget {
   final String imageUrl;
   final double width;
@@ -21,18 +23,33 @@ class ImageCropperWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black,
-                  width: 1,
+          return Hero(
+            tag: imageUrl,
+            child: Material(
+              color:Colors.transparent,
+              child: InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1,
+                      ),
+                    ),
+                    width: width,
+                    height: height,
+                    child: Image.asset(imageUrl, fit: BoxFit.cover),
+                  ),
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImagePreview(path: imageUrl)),
+                  );
+                },
               ),
-              width: width,
-              height: height,
-              child: Image.asset(imageUrl, fit: BoxFit.cover),
             ),
           );
         } else {
@@ -62,21 +79,3 @@ class ImageCropperWidget extends StatelessWidget {
     return Uint8List.fromList(bytes);
   }
 }
-
-// void main() {
-//   runApp(MaterialApp(
-//     home: Scaffold(
-//       appBar: AppBar(
-//         title: Text('Image Cropper'),
-//       ),
-//       body: Center(
-//         child: ImageCropperWidget(
-//           imageUrl: 'https://example.com/your_image.jpg',
-//           cropWidth: 200, // Desired width of the cropped image
-//           cropHeight: 200, // Desired height of the cropped image
-//         ),
-//       ),
-//     ),
-//   ));
-// }
-//
