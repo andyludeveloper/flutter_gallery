@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gallery/widgets/square.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/captured_image_provider.dart';
-import '../widgets/image_cropper_widget.dart';
+import '../widgets/image_gallery_builder.dart';
 
 const snackBar = SnackBar(
   content: Text('Yay! A SnackBar!'),
@@ -24,39 +23,21 @@ class Gallery extends StatelessWidget {
           appBar: AppBar(
             title: const Text("Gallery"),
           ),
-          body: Consumer<CapturedImageProvider>(
-            builder: (BuildContext context, provider, Widget? child) {
-              debugPrint("provider.images.length: ${provider.images.length}");
-              return Stack(children: [
-                GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, childAspectRatio: 1.0),
-                  itemCount: provider.images.length + 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index < provider.images.length) {
-                      return ImageCropperWidget(
-                        width: width,
-                        height: height,
-                        imageUrl: provider.images[index],
-                      );
-                    } else {
-                      return Square(width: width, height: height);
-                    }
-                  },
-                ),
-                Align(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        },
-                        child: const Text("OK"),
-                      ),
-                    ))
-              ]);
-            },
+          body: Stack(
+            children: [
+              ImageGalleryBuilder(width: width, height: height),
+              Align(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      child: const Text("OK"),
+                    ),
+                  ))
+            ],
           )),
     );
   }
