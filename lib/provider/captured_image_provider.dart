@@ -21,4 +21,9 @@ class CapturedImageProvider extends ChangeNotifier {
     _images.add(image);
     notifyListeners();
   }
+
+  void removeImage(String imageUrl) {
+    _images.remove(imageUrl);
+    notifyListeners();
+  }
 }
